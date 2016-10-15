@@ -9,9 +9,15 @@ LunchController.$inject = ['$scope'];
 function LunchController($scope) {
   $scope.lunch = "";
   $scope.message = "";
+  $scope.msgColor = "none";
 
   $scope.processCheck = function() {
     var numItems = itemsInList($scope.lunch);
+    if (numItems == 0) {
+      $scope.msgColor = "red";
+    } else {
+      $scope.msgColor = "green";
+    }
     $scope.message = getMessage(numItems);
   }
 }
@@ -21,7 +27,13 @@ function itemsInList (listString) {
   if (listString == "") {
     return 0;
   }
-  return items.length;
+  var count = 0;
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].replace(/\s/g, '') != '') {
+      count++;
+    }
+  }
+  return count;
 }
 
 function getMessage (numberOfItems) {
